@@ -1,55 +1,67 @@
 import React from 'react';
 import { getDatumValue, formatNumber } from '../../../tools/datatools';
 
-function Cell(props) {
+function DataCellDetails(props) {
+  const { exp } = props;
+
+  return (
+    <>
+      <p>
+        Entered by:
+        {exp.enteredBy}
+      </p>
+      <p>
+        Creation time:
+        {exp.ctime}
+      </p>
+    </>
+  );
+}
+
+function DataCell(props) {
+  const {
+    col, exp, makeClickable,
+  } = props;
+  const value = getDatumValue(col, exp);
+
+  return (
+    <td
+      {...makeClickable(DataCellDetails)}
+    >
+      {value}
+    </td>
+  );
+}
+
+function ComputedCell(props) {
   const {
     col, exp, cellId, clickable,
   } = props;
   const value = getDatumValue(col, exp);
 
-  let details;
-  if (col.id) {
-    details = (
-      <clickable.type
-        {...clickable.props}
-        cellId={cellId}
-        cellContent={<td>{value}</td>}
-        cellDetails={(
-          <>
-            <p>
-              Entered by:
-              {exp.enteredBy}
-            </p>
-            <p>
-              Creation time:
-              {exp.ctime}
-            </p>
-          </>
-        )}
-      />
-    );
-  } else {
-    details = (
-      <clickable.type
-        {...clickable.props}
-        cellId={cellId}
-        cellContent={<td>{formatNumber(value)}</td>}
-        cellDetails={(
-          <>
-            <p>
-              {value}
-            </p>
-            <p>
-              Calculated as
-              {' '}
-              {col.fullLabel}
-            </p>
-          </>
-        )}
-      />
-    );
-  }
-  return details;
+  return (
+    <clickable.type
+      {...clickable.props}
+      cellId={cellId}
+      cellContent={<td>{formatNumber(value)}</td>}
+      cellDetails={(
+        <>
+          <p>
+            {value}
+          </p>
+          <p>
+            Calculated as
+            {' '}
+            {col.fullLabel}
+          </p>
+        </>
+      )}
+    />
+  );
+}
+
+function Cell(props) {
+  return props.col.id ? DataCell(props) : ComputedCell(props);
 }
 
 function shouldMemo(prev, next) {
