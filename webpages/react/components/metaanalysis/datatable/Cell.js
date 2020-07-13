@@ -2,8 +2,13 @@ import React from 'react';
 import { getDatumValue, formatNumber, formatDateTime } from '../../../tools/datatools';
 import Editable from '../Editable';
 
-const dataCellDetails = ({ enteredBy, ctime }) => (
+const dataCellDetails = ({ enteredBy, ctime }, value) => (
   <>
+    <p>
+      Cell value:
+      { ' ' }
+      { value }
+    </p>
     <p>
       Entered by:
       { enteredBy }
@@ -34,7 +39,7 @@ export default function Cell(props) {
   return (
     col.id
       ? (
-        <td {...makeClickable(cellId, dataCellDetails(exp))}>
+        <td {...makeClickable(cellId, dataCellDetails(exp, value))}>
           <Editable cellId={cellId} type="input" onSave={editCell}>{ value }</Editable>
         </td>
       )

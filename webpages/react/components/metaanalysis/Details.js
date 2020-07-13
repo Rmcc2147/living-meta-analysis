@@ -25,6 +25,7 @@ function Details(props) {
   }, []);
 
   if (displayedCell) {
+    console.log(props);
     return (
       <aside className="details">
         <div className="header">
