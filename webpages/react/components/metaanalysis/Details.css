@@ -1,11 +1,9 @@
 .details {
-  border-bottom: none;
-  margin: auto;
+  margin: 0.5em 0;
   padding: 0;
   position: sticky;
   bottom: 0;
   height: 25%;
-  width: 95%;
   background: white;
   overflow: auto;
 }
