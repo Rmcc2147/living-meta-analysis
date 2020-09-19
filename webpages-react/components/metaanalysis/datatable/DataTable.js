@@ -1,10 +1,10 @@
 import React, { useState, useContext, useRef } from 'react';
 import Paper from './Paper';
-import AddPaper from '../AddPaper';
-import AddColumn from '../AddColumn';
+import AddPaper from './AddPaper';
+import AddColumn from './AddColumn';
 import Editable from '../Editable';
 import EditContext from '../EditContext';
-import RearrangeColumn from '../ColumnRearranger';
+import RearrangeColumn from './ColumnRearranger';
 import { RemovalPopup } from '../Popup';
 
 import './DataTable.css';
@@ -167,7 +167,21 @@ function DataTable(props) {
                             >
                               <img src="/img/grab-icon.png" alt="Grabber" className="grabberIcon" />
                             </button>
-                            { col.title || col.fullLabel }
+                            { col.title
+                              ? (
+                                <>
+                                  { col.title.length > 25
+                                    ? `${col.title.substring(0, 25)}...`
+                                    : col.title }
+                                </>
+                              )
+                              : (
+                                <>
+                                  { col.fullLabel.length > 25
+                                    ? `${col.fullLabel.substring(0, 25)}...`
+                                    : col.fullLabel }
+                                </>
+                              ) }
                             <div className="columnButtonContainer">
                               <button type="submit" className="hideShowButton" onClick={() => hideColumn(col)}>Hide</button>
                               { col.subType !== 'calculatorN'
@@ -187,7 +201,24 @@ function DataTable(props) {
                             </div>
                           </>
                         )
-                        : <>{ col.title || col.fullLabel }</> }
+                        : (
+                          <>{ col.title
+                            ? (
+                              <>
+                                { col.title.length > 25
+                                  ? `${col.title.substring(0, 25)}...`
+                                  : col.title }
+                              </>
+                            )
+                            : (
+                              <>
+                                { col.fullLabel.length > 25
+                                  ? `${col.fullLabel.substring(0, 25)}...`
+                                  : col.fullLabel }
+                              </>
+                            ) }
+                          </>
+                        ) }
                     </>
                   )
                   : (

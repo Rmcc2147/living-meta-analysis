@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
-import EditContext from './EditContext';
-import UserContext from './UserContext';
-import Popup from './Popup';
+import EditContext from '../EditContext';
+import UserContext from '../UserContext';
+import Popup from '../Popup';
 
 function AddExperimentPopup(props) {
   const {

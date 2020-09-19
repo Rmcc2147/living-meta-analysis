@@ -10,7 +10,7 @@ const assignSubType = (cols) => {
       if (column.id === '1') {
         column.subType = 'pspecific';
         column.inputType = 'string';
-      } else if (column.id === '2' || column.id === '7') {
+      } else if (column.id === '2' || column.id === '7' || column.id === '8') {
         column.subType = 'moderator';
         column.inputType = 'string';
       } else if (column.id === '3' || column.id === '5') {

@@ -24,7 +24,7 @@
   position: sticky;
   display: flex;
   align-items: center;
-  width: 10%;
+  width: 20%;
   height: 50%;
 }
 
@@ -150,7 +150,7 @@
 #toggle-editing-inactive,
 #toggle-editing-inactive:focus {
   border: 0.2em solid black;
-  width: 100%;
+  width: 50%;
   height: 100%;
   text-align: center;
   background-color: #FFC0CB;
@@ -384,9 +384,8 @@ textarea {
 .removePaperButton,
 .removeExperimentButton,
 .hideShowButton {
-  position: absolute;
-  left: 0;
-  bottom: 0;
+  position: relative;
+  margin: 4px auto;
   width: 50px;
   font-size: 10px;
   display: block;
@@ -411,14 +410,6 @@ textarea {
   background-color: red;
 }
 
-.removeExperimentButton,
-.removePaperButton,
-.removeColumnButton,
-.hideShowButton {
-  position: relative;
-  margin: 4px auto;
-}
-
 .hideShowButton {
   display: block;
   background-color: rgba(182, 234, 255, 0.5);
@@ -430,4 +421,41 @@ textarea {
 
 .columnButtonContainer {
   text-align: center;
+}
+
+.undoButton {
+  position: relative;
+  width: 50%;
+  margin-left: 5px;
+  font-size: 100%;
+  display: inline-block;
+  border: 0.2em solid black;
+  text-align: center;
+  outline: none;
+  cursor: pointer;
+  /* Prevent text highlight */
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.undoButton.active {
+  background-color: green;
+}
+
+.undoButton.active:hover {
+  background-color: darkgreen;
+}
+
+.undoButton.inactive {
+  border: 0.2em solid darkgrey;
+  background-color: grey;
+}
+
+.undoButton.inactive:hover {
+  background-color: darkgrey;
 }

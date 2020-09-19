@@ -15,6 +15,7 @@ function GrapeChart(props) {
     tooltipPadding,
     tickVals,
   } = graph;
+  console.log(dataGroups);
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

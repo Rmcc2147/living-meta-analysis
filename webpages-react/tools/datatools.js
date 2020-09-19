@@ -138,8 +138,11 @@ export function formatNumber(x) {
 
 function populateParsedFormula(col, ma, hashcols) {
   const formula = window.lima.parseFormulaString(col.formula, hashcols);
-  formula.metaanalysis = ma;
-  return formula;
+  if (formula) {
+    formula.metaanalysis = ma;
+    return formula;
+  }
+  return null;
 }
 
 export function isColCompletelyDefined(col) {

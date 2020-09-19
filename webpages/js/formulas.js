@@ -735,7 +735,7 @@
       if (!match[1]) throw new Error('referencing empty column id');
       if (!(match[1].match(paramRegex))) throw new Error('invalid column id ' + match[1]);
       if (match[1] == 'undefined') return 'undefined'; // special case for incomplete formulas (some params are missing)
-      if (!columnsHash[match[1]]) throw new Error('referencing unknown column id ' + match[1]);
+      if (!columnsHash[match[1]]) return undefined; //throw new Error('referencing unknown column id ' + match[1]);
       return columnsHash[match[1]]; // return the column object with the given id
     }
 

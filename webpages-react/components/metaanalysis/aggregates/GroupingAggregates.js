@@ -103,9 +103,23 @@ function GroupingAggregates(props) {
             { groupingAggregates.map((aggr) => (
               <tr key={aggr.fullLabel}>
                 <td {...makeClickable(aggr.fullLabel, aggregateDetails(aggr))}>
-                  <div>
-                    { aggr.title || aggr.fullLabel }
-                  </div>
+                  <>
+                    { aggr.title
+                      ? (
+                        <>
+                          { aggr.title.length > 50
+                            ? `${aggr.title.substring(0, 50)}...`
+                            : aggr.title }
+                        </>
+                      )
+                      : (
+                        <>
+                          { aggr.fullLabel.length > 50
+                            ? `${aggr.fullLabel.substring(0, 50)}...`
+                            : aggr.fullLabel }
+                        </>
+                      ) }
+                  </>
                   { edit.flag
                     ? (
                       <div>

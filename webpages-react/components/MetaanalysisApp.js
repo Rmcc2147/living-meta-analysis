@@ -9,6 +9,7 @@ import './MetaanalysisApp.css';
 
 function MetaanalysisApp() {
   const [metaanalysis, updateMetaanalysis] = useState([]);
+  const [metaanalysisStates, setMetaanalysisStates] = useState([]);
   const [isLoaded, setLoaded] = useState(false);
   const [error, setError] = useState(null);
   const [currentUser] = useGoogleAuth(null);
@@ -24,6 +25,7 @@ function MetaanalysisApp() {
         const response = await fetch(url);
         const data = await response.json();
         updateMetaanalysis(data);
+        setMetaanalysisStates([data]);
         setLoaded(true);
       } catch (err) {
         setLoaded(true);
@@ -42,7 +44,12 @@ function MetaanalysisApp() {
       </div>
     );
   } else if (isLoaded === true) {
-    content = (<Metaanalysis metaanalysis={metaanalysis} />);
+    content = (
+      <Metaanalysis
+        ma={[metaanalysis, updateMetaanalysis]}
+        mState={[metaanalysisStates, setMetaanalysisStates]}
+      />
+    );
   } else {
     content = <div>Loading...</div>;
   }

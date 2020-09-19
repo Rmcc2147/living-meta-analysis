@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Tabs from '../layout/Tabs';
 // import TagList from './tags/TagList';
 import Info from './Info';
@@ -9,6 +9,7 @@ import Metadata from './Metadata';
 import Details from './Details';
 import EditContext from './EditContext';
 import UserContext from './UserContext';
+import Undo from './Undo';
 
 import { populateCircularMa, getDatumValue } from '../../tools/datatools';
 import replaceCell from '../../tools/editTools';
@@ -17,10 +18,12 @@ import modifyColumns from '../../tools/modifyColumns';
 import './Metaanalysis.css';
 
 function Metaanalysis(props) {
-  const { metaanalysis } = props;
+  const { ma, mState } = props;
+  const [metaanalysis, updateMetaanalysis] = ma;
   populateCircularMa(metaanalysis);
   window.currentMa = metaanalysis;
 
+  const [metaanalysisStates, setMetaanalysisStates] = mState;
   const [title] = useState(metaanalysis.title);
   // const [tags, setTags] = useState(metaanalysis.tags);
   const [description, setDescription] = useState(metaanalysis.description);
@@ -108,6 +111,56 @@ function Metaanalysis(props) {
   const editCell = (value, cellId) => {
     setPapers(replaceCell(papers, columnsClone, value, cellId, currentUser));
   };
+
+  useEffect(() => {
+    const maClone = { ...metaanalysis };
+    const maStatesClone = [...metaanalysisStates];
+    console.log(maStatesClone);
+
+    if (description !== maClone.description) {
+      maClone.description = description;
+    }
+    if (published !== maClone.published) {
+      maClone.published = published;
+    }
+    if (columns !== maClone.columns) {
+      maClone.columns = columns;
+      for (let i = 0; i < maClone.hashcols.length; i += 1) {
+        if (!maClone.columns.contains(maClone.hashcols[i])) {
+          delete maClone.hashcols[i];
+        }
+      }
+    }
+    if (papers !== maClone.papers) {
+      maClone.papers = papers;
+    }
+    if (paperOrder !== maClone.paperOrder) {
+      maClone.paperOrder = paperOrder;
+    }
+    if (aggregates !== maClone.aggregates) {
+      maClone.aggregates = aggregates;
+    }
+    if (groupingAggregates !== maClone.groupingAggregates) {
+      maClone.groupingAggregates = groupingAggregates;
+    }
+    if (graphs !== maClone.graphs) {
+      maClone.graphs = graphs;
+    }
+
+    updateMetaanalysis(maClone);
+    maStatesClone.push(maClone);
+    setMetaanalysisStates(maStatesClone);
+  }, [
+    description,
+    published,
+    columns,
+    papers,
+    paperOrder,
+    aggregates,
+    groupingAggregates,
+    graphs,
+  ]);
+
   return (
     <main className="metaanalysis">
       <div className={`titlebar ${edit.flag ? 'editMode primary' : ''}`}>
@@ -118,16 +171,34 @@ function Metaanalysis(props) {
           { /* <TagList tags={tags} setTags={setTags} /> */ }
           { currentUser
             ? (
-              <span
-                id="toggle-editing"
-                role="menuitem"
-                tabIndex="0"
-                onMouseDown={edit.toggle}
-                onKeyPress={edit.toggle}
-                className={`${edit.flag ? 'editMode' : ''}`}
-              >
-                { edit.flag ? 'Stop editing' : 'Edit' }
-              </span>
+              <>
+                <span
+                  id="toggle-editing"
+                  role="menuitem"
+                  tabIndex="0"
+                  onMouseDown={edit.toggle}
+                  onKeyPress={edit.toggle}
+                  className={`${edit.flag ? 'editMode' : ''}`}
+                >
+                  { edit.flag ? 'Stop editing' : 'Edit' }
+                </span>
+                <Undo
+                  updateMetaanalysis={updateMetaanalysis}
+                  maState={[metaanalysisStates, setMetaanalysisStates]}
+                  updateComponents={
+                    [
+                      setDescription,
+                      setPublished,
+                      setColumns,
+                      setPapers,
+                      setPaperOrder,
+                      setAggregates,
+                      setGroupingAggregates,
+                      setGraphs,
+                    ]
+                  }
+                />
+              </>
             )
             : (
               <span

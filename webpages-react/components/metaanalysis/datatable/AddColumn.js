@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
-import EditContext from './EditContext';
-import formulas from './aggregates/Formulas';
-import Popup from './Popup';
+import EditContext from '../EditContext';
+import formulas from '../aggregates/Formulas';
+import Popup from '../Popup';
 
 function AddColumnPopup(props) {
   const { flag, columnState } = props;
@@ -58,7 +58,12 @@ function AddColumnPopup(props) {
 
     function createModeratorObject() {
       let columnsClone = [...columns];
-      const newId = String(columns.filter((col) => col.subType !== 'result').length + 1);
+      const nonResultCols = columns.filter((col) => col.subType !== 'result');
+      let newId = String(Number(nonResultCols[nonResultCols.length - 1].id) + 1);
+      const colValid = nonResultCols.filter((col) => col.id === newId);
+      while (colValid.length !== 0) {
+        newId += 1;
+      }
       const newInputType = type === 'moderator' ? 'string' : 'number';
       const newModeratorColumnObject = {
         id: newId,
@@ -78,7 +83,12 @@ function AddColumnPopup(props) {
 
     function createCalculatorObject() {
       let columnsClone = [...columns];
-      const newId = columns.filter((col) => col.subType !== 'result').length + 1;
+      const nonResultCols = columns.filter((col) => col.subType !== 'result');
+      let newId = String(Number(nonResultCols[nonResultCols.length - 1].id) + 1);
+      const colValid = nonResultCols.filter((col) => col.id === newId);
+      while (colValid.length !== 0) {
+        newId += 1;
+      }
       const newInputType = type === 'moderator' ? 'string' : 'number';
       const newCalculatorColumnObject = {
         id: String(newId),
@@ -111,7 +121,12 @@ function AddColumnPopup(props) {
       const f = simpleFormulas.filter((formula) => formula.id === formulaTitle)[0];
       const formulaClone = { ...f };
       formulaClone.type = window.lima.FORMULA_TYPE;
-      const newNumber = String(columns.filter((col) => col.subType === 'result').length + 1);
+      const resultCols = columns.filter((col) => col.subType === 'result');
+      let newId = String(Number(resultCols[resultCols.length - 1].id) + 1);
+      const colValid = resultCols.filter((col) => col.id === newId);
+      while (colValid.length !== 0) {
+        newId += 1;
+      }
       let newFormula = '';
       const newFormulaParams = [];
       let newFullLabel = '';
@@ -148,7 +163,7 @@ function AddColumnPopup(props) {
         formulaParams: newFormulaParams,
         fullLabel: `${formulaClone.label}(${newFullLabel})`,
         metaanalysis: window.currentMa,
-        number: newNumber,
+        number: newId,
         subType: 'result',
         title,
         type: 'result',
