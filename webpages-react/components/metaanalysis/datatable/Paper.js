@@ -189,6 +189,7 @@ function Paper(props) {
   }
 
   function removePaper() {
+    console.log(paper);
     const paperOrderClone = [...paperOrder];
     const papersClone = [...paperState];
 

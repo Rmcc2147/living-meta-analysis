@@ -46,7 +46,12 @@ function RearrangeColumn(e, columns, setColumns, moveCols, setMoveCols) {
     originalColumn = columnDomElem;
     const columnType = columnDomElem.getAttribute('columntype');
     const columnId = columnDomElem.getAttribute('columnid');
-    const columnTypeGroup = columns.filter((col) => col.subType === columnType);
+    let columnTypeGroup;
+    if (columnType !== 'calculator' && columnType !== 'calculatorN') {
+      columnTypeGroup = columns.filter((col) => col.subType === columnType);
+    } else {
+      columnTypeGroup = columns.filter((col) => col.subType === 'calculator' || col.subType === 'calculatorN');
+    }
     let columnBeingMoved;
     if (columnType !== 'result') {
       columnBeingMoved = columns.filter((col) => col.id === columnId)[0];
@@ -58,7 +63,11 @@ function RearrangeColumn(e, columns, setColumns, moveCols, setMoveCols) {
     const columnDomElemTypeGroup = [];
     for (let i = 0; i < allColumnDomElems.length; i += 1) {
       const type = allColumnDomElems[i].getAttribute('columntype');
-      if (type && type === columnType) {
+      if (columnType !== 'calculator' && columnType !== 'calculatorN') {
+        if (type && type === columnType) {
+          columnDomElemTypeGroup.push(allColumnDomElems[i]);
+        }
+      } else if (type && (type === 'calculator' || type === 'calculatorN')) {
         columnDomElemTypeGroup.push(allColumnDomElems[i]);
       }
     }
@@ -87,7 +96,7 @@ function RearrangeColumn(e, columns, setColumns, moveCols, setMoveCols) {
       const dropIndex = moveCols.colGroup[1].indexOf(dropElem);
       const elemIndex = moveCols.colGroup[1].indexOf(moveCols.col[1]);
       const modGroup = columns.filter((col) => col.subType === 'moderator');
-      const calcGroup = columns.filter((col) => col.subType === 'calculator');
+      const calcGroup = columns.filter((col) => col.subType === 'calculator' || col.subType === 'calculatorN');
       const resGroup = columns.filter((col) => col.subType === 'result');
 
       if (elemIndex !== undefined && dropIndex !== undefined) {
@@ -102,6 +111,9 @@ function RearrangeColumn(e, columns, setColumns, moveCols, setMoveCols) {
             retVal = tempColGroup.concat(calcGroup.concat(resGroup));
             break;
           case 'calculator':
+            retVal = modGroup.concat(tempColGroup.concat(resGroup));
+            break;
+          case 'calculatorN':
             retVal = modGroup.concat(tempColGroup.concat(resGroup));
             break;
           case 'result':

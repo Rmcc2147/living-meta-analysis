@@ -1,7 +1,8 @@
 {
   "env": {
     "browser": true,
-    "es6": true
+    "es6": true,
+    "jest/globals": true
   },
   "extends": ["plugin:react/recommended", "airbnb"],
   "globals": {
@@ -17,7 +18,8 @@
     "sourceType": "module"
   },
   "plugins": [
-    "react"
+    "react",
+    "jest"
   ],
   "rules": {
     "indent": ["error", 2],
@@ -40,6 +42,12 @@
     "react/jsx-curly-spacing": ["error", { "when": "never", "children": { "when": "always" }}],
     "jsx-a11y/no-autofocus": [0],
     "no-cond-assign": ["error", "except-parens"],
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}]
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error",
+    "no-loop-func": [0]
   }
 }

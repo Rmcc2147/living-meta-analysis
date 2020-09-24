@@ -115,7 +115,6 @@ function Metaanalysis(props) {
   useEffect(() => {
     const maClone = { ...metaanalysis };
     const maStatesClone = [...metaanalysisStates];
-    console.log(maStatesClone);
 
     if (description !== maClone.description) {
       maClone.description = description;
@@ -153,7 +152,6 @@ function Metaanalysis(props) {
   }, [
     description,
     published,
-    columns,
     papers,
     paperOrder,
     aggregates,

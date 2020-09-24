@@ -53,6 +53,7 @@ function AddExperimentPopup(props) {
   };
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     const experimentDetails = [];
     const children = e.target.children;
     for (let i = 0; i < children.length; i += 1) {

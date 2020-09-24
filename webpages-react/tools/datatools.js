@@ -74,7 +74,7 @@ export function populateCircularMa(ma) {
   const hashPapers = generateIDHash(ma.papers);
   for (const excludedExp of ma.excludedExperiments) {
     const [paperId, expIndex] = excludedExp.split(',');
-    if (hashPapers[paperId].experiments[expIndex] != null) {
+    if (hashPapers[paperId] && hashPapers[paperId].experiments[expIndex] != null) {
       hashPapers[paperId].experiments[expIndex].excluded = true;
     }
   }

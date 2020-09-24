@@ -60,8 +60,7 @@ function AddColumnPopup(props) {
       let columnsClone = [...columns];
       const nonResultCols = columns.filter((col) => col.subType !== 'result');
       let newId = String(Number(nonResultCols[nonResultCols.length - 1].id) + 1);
-      const colValid = nonResultCols.filter((col) => col.id === newId);
-      while (colValid.length !== 0) {
+      while (nonResultCols.filter((col) => col.id === newId).length !== 0) {
         newId += 1;
       }
       const newInputType = type === 'moderator' ? 'string' : 'number';
@@ -85,8 +84,8 @@ function AddColumnPopup(props) {
       let columnsClone = [...columns];
       const nonResultCols = columns.filter((col) => col.subType !== 'result');
       let newId = String(Number(nonResultCols[nonResultCols.length - 1].id) + 1);
-      const colValid = nonResultCols.filter((col) => col.id === newId);
-      while (colValid.length !== 0) {
+      while (nonResultCols.filter((col) => col.id === newId).length !== 0) {
+        console.log(newId);
         newId += 1;
       }
       const newInputType = type === 'moderator' ? 'string' : 'number';
@@ -130,7 +129,6 @@ function AddColumnPopup(props) {
       let newFormula = '';
       const newFormulaParams = [];
       let newFullLabel = '';
-      console.log(f, params);
       if (f.parameters.length !== 4) {
         for (let i = 0; i < params.length; i += 1) {
           newFormulaParams[i] = calculators.filter((col) => col.id === String(params[i]))[0];
@@ -190,7 +188,6 @@ function AddColumnPopup(props) {
           formulaTitle = input.children[0].value;
           break;
         case 'formulaParamInput':
-          console.log(input);
           for (let j = 0; j < input.children.length; j += 1) {
             params.push(input.children[j].children[0].value);
           }
@@ -201,6 +198,7 @@ function AddColumnPopup(props) {
     }
 
     let columnsToSet;
+    console.log(type);
     switch (type) {
     case 'moderator':
       columnsToSet = createModeratorObject();
@@ -213,6 +211,7 @@ function AddColumnPopup(props) {
       break;
     default:
     }
+    console.log(columnsToSet);
     setColumns(columnsToSet);
   }
 
